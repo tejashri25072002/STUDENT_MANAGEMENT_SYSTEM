@@ -1,0 +1,344 @@
+C:\Users\DELL>cd..
+
+C:\Users>cd..
+
+C:\>cd xampp
+
+C:\xampp>cd mysql
+
+C:\xampp\mysql>cd bin
+
+C:\xampp\mysql\bin>mysql -h localhost -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.28-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++-----------------------+
+| Database              |
++-----------------------+
+| cloth_shopping_center |
+| ecart79               |
+| ekart2                |
+| emp_assign            |
+| healthcare            |
+| information_schema    |
+| media                 |
+| movie_db              |
+| msg7_9                |
+| mysql                 |
+| performance_schema    |
+| phpmyadmin            |
+| reg7to9               |
+| state                 |
+| streaming_db          |
+| studentdetail         |
+| subquery              |
+| test                  |
+| university            |
++-----------------------+
+19 rows in set (0.042 sec)
+
+MariaDB [(none)]> create database student_management_system;
+Query OK, 1 row affected (0.015 sec)
+
+MariaDB [(none)]> show databases;
++---------------------------+
+| Database                  |
++---------------------------+
+| cloth_shopping_center     |
+| ecart79                   |
+| ekart2                    |
+| emp_assign                |
+| healthcare                |
+| information_schema        |
+| media                     |
+| movie_db                  |
+| msg7_9                    |
+| mysql                     |
+| performance_schema        |
+| phpmyadmin                |
+| reg7to9                   |
+| state                     |
+| streaming_db              |
+| student_management_system |
+| studentdetail             |
+| subquery                  |
+| test                      |
+| university                |
++---------------------------+
+20 rows in set (0.013 sec)
+
+MariaDB [(none)]> use student_management_system;
+Database changed
+MariaDB [student_management_system]> create table student(stud_ID int primary key,stfname varchar(30),stlname varchar(30
+),stcourse varchar(30),styear int,stcontact int,stage int,stbirthdate date,stgender enum("Male","Female"));
+Query OK, 0 rows affected (0.065 sec)
+
+MariaDB [student_management_system]> create table course(course_ID int primary key,course_desc text,units int,course_rem
+arks text);
+Query OK, 0 rows affected (0.074 sec)
+
+MariaDB [student_management_system]> create table staff(staff_ID int primary key,fname varchar(30),lname varchar(30),con
+tact int,address varchar(255),gender enum("Male","Female"));
+Query OK, 0 rows affected (0.070 sec)
+
+MariaDB [student_management_system]> create table staff_department(staff_ID int primary key,course_line int,foreign key(course_line) references course(course_ID));
+Query OK, 0 rows affected (0.077 sec)
+
+MariaDB [student_management_system]> create table project_transaction(transaction_ID int primary key,transaction_name varchar(30),stud_ID int,foreign key(stud_ID) references student(stud_ID),staff_ID int,foreign key(staff_ID) references staff(staff_ID));
+Query OK, 0 rows affected (0.081 sec)
+
+MariaDB [student_management_system]> alter table project_transaction add transaction_date date;
+Query OK, 0 rows affected (0.045 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [student_management_system]> create table student_registration(registration_ID int,name varchar(30),content varc
+har(30),registration_date date);
+Query OK, 0 rows affected (0.065 sec)
+
+MariaDB [student_management_system]> create table student_reports(report_ID int primary key,reports_name varchar(30),student_records int,foreign key(student_records) references student(stud_ID),transaction_reports int,foreign key(transactio
+n_reports) references project_transaction(transaction_ID));
+Query OK, 0 rows affected (0.075 sec)
+
+MariaDB [student_management_system]> show tables;
++-------------------------------------+
+| Tables_in_student_management_system |
++-------------------------------------+
+| course                              |
+| project_transaction                 |
+| staff                               |
+| staff_department                    |
+| student                             |
+| student_registration                |
+| student_reports                     |
++-------------------------------------+
+7 rows in set (0.005 sec)
+
+MariaDB [student_management_system]> desc course;
++----------------+---------+------+-----+---------+-------+
+| Field          | Type    | Null | Key | Default | Extra |
++----------------+---------+------+-----+---------+-------+
+| course_ID      | int(11) | NO   | PRI | NULL    |       |
+| course_desc    | text    | YES  |     | NULL    |       |
+| units          | int(11) | YES  |     | NULL    |       |
+| course_remarks | text    | YES  |     | NULL    |       |
++----------------+---------+------+-----+---------+-------+
+4 rows in set (0.019 sec)
+
+MariaDB [student_management_system]> desc student;
++-------------+-----------------------+------+-----+---------+-------+
+| Field       | Type                  | Null | Key | Default | Extra |
++-------------+-----------------------+------+-----+---------+-------+
+| stud_ID     | int(11)               | NO   | PRI | NULL    |       |
+| stfname     | varchar(30)           | YES  |     | NULL    |       |
+| stlname     | varchar(30)           | YES  |     | NULL    |       |
+| stcourse    | varchar(30)           | YES  |     | NULL    |       |
+| styear      | int(11)               | YES  |     | NULL    |       |
+| stcontact   | int(11)               | YES  |     | NULL    |       |
+| stage       | int(11)               | YES  |     | NULL    |       |
+| stbirthdate | date                  | YES  |     | NULL    |       |
+| stgender    | enum('Male','Female') | YES  |     | NULL    |       |
++-------------+-----------------------+------+-----+---------+-------+
+9 rows in set (0.023 sec)
+
+MariaDB [student_management_system]> insert into student values(1,"Sanika","Sawant","Full Stack Development",2023,986065
+1567,20,"2002-02-12","Female");
+Query OK, 1 row affected, 1 warning (0.043 sec)
+
+MariaDB [student_management_system]> insert into student values(2,"Tejashri","Shinde","Master's in Data Software Engineering",2023,8767382501,21,"2002-07-25","Female");
+Query OK, 1 row affected, 2 warnings (0.020 sec)
+
+MariaDB [student_management_system]> desc student;
++-------------+-----------------------+------+-----+---------+-------+
+| Field       | Type                  | Null | Key | Default | Extra |
++-------------+-----------------------+------+-----+---------+-------+
+| stud_ID     | int(11)               | NO   | PRI | NULL    |       |
+| stfname     | varchar(30)           | YES  |     | NULL    |       |
+| stlname     | varchar(30)           | YES  |     | NULL    |       |
+| stcourse    | varchar(30)           | YES  |     | NULL    |       |
+| styear      | int(11)               | YES  |     | NULL    |       |
+| stcontact   | int(11)               | YES  |     | NULL    |       |
+| stage       | int(11)               | YES  |     | NULL    |       |
+| stbirthdate | date                  | YES  |     | NULL    |       |
+| stgender    | enum('Male','Female') | YES  |     | NULL    |       |
++-------------+-----------------------+------+-----+---------+-------+
+9 rows in set (0.032 sec)
+
+MariaDB [student_management_system]> select * from student;
++---------+----------+---------+--------------------------------+--------+------------+-------+-------------+----------+
+| stud_ID | stfname  | stlname | stcourse                       | styear | stcontact  | stage | stbirthdate | stgender |
++---------+----------+---------+--------------------------------+--------+------------+-------+-------------+----------+
+|       1 | Sanika   | Sawant  | Full Stack Development         |   2023 | 2147483647 |    20 | 2002-02-12  | Female   |
+|       2 | Tejashri | Shinde  | Master's in Data Software Engi |   2023 | 2147483647 |    21 | 2002-07-25  | Female   |
++---------+----------+---------+--------------------------------+--------+------------+-------+-------------+----------+
+2 rows in set (0.018 sec)
+
+MariaDB [student_management_system]> desc staff;
++----------+-----------------------+------+-----+---------+-------+
+| Field    | Type                  | Null | Key | Default | Extra |
++----------+-----------------------+------+-----+---------+-------+
+| staff_ID | int(11)               | NO   | PRI | NULL    |       |
+| fname    | varchar(30)           | YES  |     | NULL    |       |
+| lname    | varchar(30)           | YES  |     | NULL    |       |
+| contact  | int(11)               | YES  |     | NULL    |       |
+| address  | varchar(255)          | YES  |     | NULL    |       |
+| gender   | enum('Male','Female') | YES  |     | NULL    |       |
++----------+-----------------------+------+-----+---------+-------+
+6 rows in set (0.018 sec)
+
+MariaDB [student_management_system]> insert into staff values(1,"Sonali","Kulkarni",8058734512,"A wing building No.12 Royal Road,Banglore","Female"),(2,"Siddhesh","Mhatre",9128907654,"B wing Akash Residency, Lal Bahadur Shastri Marg, Mumbai
+","Male");
+Query OK, 2 rows affected, 2 warnings (0.020 sec)
+Records: 2  Duplicates: 0  Warnings: 2
+
+MariaDB [student_management_system]> select * from staff;
++----------+----------+----------+------------+----------------------------------------------------------+--------+
+| staff_ID | fname    | lname    | contact    | address                                                  | gender |
++----------+----------+----------+------------+----------------------------------------------------------+--------+
+|        1 | Sonali   | Kulkarni | 2147483647 | A wing building No.12 Royal Road,Banglore                | Female |
+|        2 | Siddhesh | Mhatre   | 2147483647 | B wing Akash Residency, Lal Bahadur Shastri Marg, Mumbai | Male   |
++----------+----------+----------+------------+----------------------------------------------------------+--------+
+2 rows in set (0.002 sec)
+
+MariaDB [student_management_system]> show tables;
++-------------------------------------+
+| Tables_in_student_management_system |
++-------------------------------------+
+| course                              |
+| project_transaction                 |
+| staff                               |
+| staff_department                    |
+| student                             |
+| student_registration                |
+| student_reports                     |
++-------------------------------------+
+7 rows in set (0.005 sec)
+
+MariaDB [student_management_system]> desc course;
++----------------+---------+------+-----+---------+-------+
+| Field          | Type    | Null | Key | Default | Extra |
++----------------+---------+------+-----+---------+-------+
+| course_ID      | int(11) | NO   | PRI | NULL    |       |
+| course_desc    | text    | YES  |     | NULL    |       |
+| units          | int(11) | YES  |     | NULL    |       |
+| course_remarks | text    | YES  |     | NULL    |       |
++----------------+---------+------+-----+---------+-------+
+4 rows in set (0.015 sec)
+
+MariaDB [student_management_system]> insert into course values(1,"Fulll stack development course",20,"The course is very
+ best it contains various languages like java,python and frameworks"),(2,"Data Software Engineering",25,"Te course conat
+in syllabus about web designing,full stack development,data science and data analytics");
+Query OK, 2 rows affected (0.025 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [student_management_system]> select * from course;
++-----------+--------------------------------+-------+-------------------------------------------------------------------------------------------------------+
+| course_ID | course_desc                    | units | course_remarks
+                                     |
++-----------+--------------------------------+-------+-------------------------------------------------------------------------------------------------------+
+|         1 | Fulll stack development course |    20 | The course is very best it contains various languages like java,python and frameworks                 |
+|         2 | Data Software Engineering      |    25 | Te course conatin syllabus about web designing,full stack development,data science and data analytics |
++-----------+--------------------------------+-------+-------------------------------------------------------------------------------------------------------+
+2 rows in set (0.004 sec)
+
+MariaDB [student_management_system]> desc project_transaction;
++------------------+-------------+------+-----+---------+-------+
+| Field            | Type        | Null | Key | Default | Extra |
++------------------+-------------+------+-----+---------+-------+
+| transaction_ID   | int(11)     | NO   | PRI | NULL    |       |
+| transaction_name | varchar(30) | YES  |     | NULL    |       |
+| stud_ID          | int(11)     | YES  | MUL | NULL    |       |
+| staff_ID         | int(11)     | YES  | MUL | NULL    |       |
+| transaction_date | date        | YES  |     | NULL    |       |
++------------------+-------------+------+-----+---------+-------+
+5 rows in set (0.021 sec)
+
+MariaDB [student_management_system]> insert into project_transaction values(1,"PhonePay",2,1,"2023-08-12"),(2,"GPay",1,2,"2023-12-25");
+Query OK, 2 rows affected (0.018 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [student_management_system]> select * from project_transaction;
++----------------+------------------+---------+----------+------------------+
+| transaction_ID | transaction_name | stud_ID | staff_ID | transaction_date |
++----------------+------------------+---------+----------+------------------+
+|              1 | PhonePay         |       2 |        1 | 2023-08-12       |
+|              2 | GPay             |       1 |        2 | 2023-12-25       |
++----------------+------------------+---------+----------+------------------+
+2 rows in set (0.005 sec)
+
+MariaDB [student_management_system]> desc staff_department;
++-------------+---------+------+-----+---------+-------+
+| Field       | Type    | Null | Key | Default | Extra |
++-------------+---------+------+-----+---------+-------+
+| staff_ID    | int(11) | NO   | PRI | NULL    |       |
+| course_line | int(11) | YES  | MUL | NULL    |       |
++-------------+---------+------+-----+---------+-------+
+2 rows in set (0.025 sec)
+
+MariaDB [student_management_system]> insert into staff_department values(1,2),(2,1);
+Query OK, 2 rows affected (0.020 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [student_management_system]> select * from staff_department;
++----------+-------------+
+| staff_ID | course_line |
++----------+-------------+
+|        2 |           1 |
+|        1 |           2 |
++----------+-------------+
+2 rows in set (0.004 sec)
+
+MariaDB [student_management_system]> desc student_registration;
++-------------------+-------------+------+-----+---------+-------+
+| Field             | Type        | Null | Key | Default | Extra |
++-------------------+-------------+------+-----+---------+-------+
+| registration_ID   | int(11)     | YES  |     | NULL    |       |
+| name              | varchar(30) | YES  |     | NULL    |       |
+| content           | varchar(30) | YES  |     | NULL    |       |
+| registration_date | date        | YES  |     | NULL    |       |
++-------------------+-------------+------+-----+---------+-------+
+4 rows in set (0.023 sec)
+
+MariaDB [student_management_system]> insert into student_registration values(1,"Sanika Sawant","This student take admission for full stack development course","2023-02-12"),(2,"Tejashri Shinde","This student take admission for master's in data software engineering course","2023-07-31");
+Query OK, 2 rows affected, 2 warnings (0.019 sec)
+Records: 2  Duplicates: 0  Warnings: 2
+
+MariaDB [student_management_system]> select * from student_registration;
++-----------------+-----------------+--------------------------------+-------------------+
+| registration_ID | name            | content                        | registration_date |
++-----------------+-----------------+--------------------------------+-------------------+
+|               1 | Sanika Sawant   | This student take admission fo | 2023-02-12        |
+|               2 | Tejashri Shinde | This student take admission fo | 2023-07-31        |
++-----------------+-----------------+--------------------------------+-------------------+
+2 rows in set (0.002 sec)
+
+MariaDB [student_management_system]> desc student_reports;
++---------------------+-------------+------+-----+---------+-------+
+| Field               | Type        | Null | Key | Default | Extra |
++---------------------+-------------+------+-----+---------+-------+
+| report_ID           | int(11)     | NO   | PRI | NULL    |       |
+| reports_name        | varchar(30) | YES  |     | NULL    |       |
+| student_records     | int(11)     | YES  | MUL | NULL    |       |
+| transaction_reports | int(11)     | YES  | MUL | NULL    |       |
++---------------------+-------------+------+-----+---------+-------+
+4 rows in set (0.023 sec)
+
+MariaDB [student_management_system]> insert into student_reports values(1,"First Year",1,2),(2,"Last Year",2,1);
+Query OK, 2 rows affected (0.021 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+MariaDB [student_management_system]> select * from student_reports;
++-----------+--------------+-----------------+---------------------+
+| report_ID | reports_name | student_records | transaction_reports |
++-----------+--------------+-----------------+---------------------+
+|         1 | First Year   |               1 |                   2 |
+|         2 | Last Year    |               2 |                   1 |
++-----------+--------------+-----------------+---------------------+
+2 rows in set (0.004 sec)
+
+MariaDB [student_management_system]>
